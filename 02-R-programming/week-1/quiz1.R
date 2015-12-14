@@ -14,4 +14,24 @@ num_na_ozone <- length(which(is.na(ozone_column)))
 
 #question 17
 
-mean
+mean_ozone <- mean(na.omit(ozone_column))
+
+# Question 18
+library(data.table)
+some_data_table <- data.table(some_data)
+# special_ozone <- some_data_table[,.(solar_mean = mean(Solar.R)), by = .(Ozone > 31 & Temp > 90)]
+# trial_2 <- subset(some_data, Ozone > 31 & Temp > 90, select=Solar.R)
+# trial_2
+
+trial_3 <- subset(some_data_table, subset=Ozone>31 & Temp > 90, select=Solar.R)
+answer <- mean(trial_3$Solar.R)
+
+#Question 19
+answer_19 <- subset(some_data_table, subset = Month == 6 )
+answer_19_2 <- mean(answer_19$Temp)
+
+#Question 20
+answer_20 <- subset(some_data_table, subset = Month == 5)
+
+#answer
+answer_20_2 <- max(answer_20$Ozone,na.rm=TRUE)
