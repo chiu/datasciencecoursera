@@ -28,7 +28,7 @@ corr <- function(directory, threshold = 0) {
     one_monitor_cor <- cor(x=one_monitor_data$sulfate, y=one_monitor_data$nitrate, use = "everything")
     print(one_monitor_cor)
     passing_cor <- c(passing_cor, one_monitor_cor)
-    print("function end")
+    # print("function end")
     
   }
   return(passing_cor)

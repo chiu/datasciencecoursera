@@ -30,9 +30,9 @@ complete <- function(directory, id = 1:332) {
     complete_data_dt <- rbind(complete_data_dt, new_row)
   }
   
-  print("hi")
+  # print("hi")
   
-  print(complete_data_dt)
+  # print(complete_data_dt)
   return(complete_data_dt)
   
   
@@ -40,11 +40,11 @@ complete <- function(directory, id = 1:332) {
 
 # complete_data_dt <- complete(directory = 'specdata', c(2,4,8,10,12))
 
-complete1 <- complete("specdata", 1)
+complete1 <- complete("specdata", 1) %>% print
 
-complete("specdata", c(2, 4, 8, 10, 12))
+print(complete("specdata", c(2, 4, 8, 10, 12)))
 
-complete("specdata", 30:25)
+complete("specdata", 30:25) %>% print
 
-complete("specdata", 3)
+complete("specdata", 3) %>% print
 
