@@ -91,7 +91,8 @@ complete <- function(directory, id = 1:332) {
   }
   print("hi")
 
-return(aggregate_table)
+  num_rows <- nrow(aggregate_table)
+return(num_rows)
 
  
 }
