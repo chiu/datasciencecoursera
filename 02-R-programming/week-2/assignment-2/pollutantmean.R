@@ -75,7 +75,9 @@ complete <- function(directory, id = 1:332) {
   raw_data <-
     read.csv(paste0(directory,'/',formatted_index,'.csv'))
   aggregate_table <- raw_data
-  
+  complete_data_dt <- data.table(id=character(), nobs=integer())
+  new_row <- data.table(id = id[1], nobs = nrow(raw_data))
+  complete_data_dt <- rbind(complete_data_dt, new_row)
   id_no_first_element <- id[-1]
   if(length(id)>1){
     for (specific_index in id_no_first_element) {
