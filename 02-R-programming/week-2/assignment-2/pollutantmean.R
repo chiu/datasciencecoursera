@@ -18,25 +18,39 @@ pollutantmean <- function(directory, pollutant, id = 1:332) {
   ## NOTE: Do not round the result!
   # aggregate_table <- data.table()
   
-
+  
   formatted_index <- formatC(id[1], width = 3, flag = "0")
   raw_data <-
     read.csv(paste0(directory,'/',formatted_index,'.csv'))
   aggregate_table <- raw_data
   
-  for (count in 2:length(id)) {
-    # browser()
-    specific_index <- id[count]
-    print(specific_index)
-    formatted_index <- formatC(specific_index, width = 3, flag = "0")
-    raw_data <-
-      read.csv(paste0(directory,'/',formatted_index,'.csv'))
-    aggregate_table <- rbind(aggregate_table, raw_data)
-    
+  if(length(id)>1){
+    for (count in 2:length(id)) {
+      
+      # browser()
+      specific_index <- id[count]
+      print(specific_index)
+      formatted_index <- formatC(specific_index, width = 3, flag = "0")
+      raw_data <-
+        read.csv(paste0(directory,'/',formatted_index,'.csv'))
+      aggregate_table <- rbind(aggregate_table, raw_data)
+      
+    }
   }
-  return(aggregate_table)
+  print("hi")
+  pollutant_data <- aggregate_table[[pollutant]]
+  result <- mean(pollutant_data, na.rm = TRUE)
+  # result <- mean(aggregate_table[[]])
+  result <- signif(result,4)
+  return(result)
 }
 
 
-aggregate_table <-
+test1 <-
   pollutantmean(directory = 'specdata', pollutant = 'sulfate', id = 1:10)
+
+test2 <- 
+  pollutantmean("specdata", "nitrate", 70:72)
+
+test3 <-
+  pollutantmean("specdata", "nitrate", 23)
