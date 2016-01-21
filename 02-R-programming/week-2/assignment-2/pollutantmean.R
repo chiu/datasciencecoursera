@@ -92,3 +92,18 @@ complete <- function(directory, id = 1:332) {
 }
 
 complete_data_dt <- complete(directory = 'specdata', c(2,4,8,10,12))
+
+
+#q1
+print("q1")
+q1 <- pollutantmean("specdata", "sulfate", 1:10)
+
+print("q2")
+print(pollutantmean("specdata", "nitrate", 70:72))
+
+
+print("q3")
+print(pollutantmean("specdata", "sulfate", 34))
+
+print("q4")
+print(pollutantmean("specdata", "nitrate"))
