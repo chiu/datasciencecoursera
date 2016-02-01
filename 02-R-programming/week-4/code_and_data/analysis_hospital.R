@@ -45,3 +45,37 @@ trial_4 <- best("MD", "pneumonia")
 
 error_5 <- best("BB", "heart attack")
 error_6 <- best("NY", "hert attack")
+
+
+
+
+rankhospital <- function(state, outcome, num = "best") {
+  ## Read outcome data
+  ## Check that state and outcome are valid
+  ## Return hospital name in that state with the given rank
+  ## 30-day death rate
+  
+  outcome_dt <- copy(outcome_dt)
+  if( length(intersect(outcome_dt$State, state)) == 0 ){
+    break('invalid state')
+  }
+  COLNAME_PREFIX <- 'Hospital.30.Day.Death..Mortality..Rates.from.'
+  if(outcome == 'heart attack'){
+    outcome_col <- paste0(COLNAME_PREFIX,'Heart.Attack')
+  } else if (outcome == 'heart failure') {
+    outcome_col <- paste0(COLNAME_PREFIX,'Heart.Failure')
+  } else if (outcome == 'pneumonia') {
+    outcome_col <- paste0(COLNAME_PREFIX,'Pneumonia')
+  } else {
+    break('invalid outcome')
+  }
+  
+  
+  
+  
+  setnames(outcome_dt, old = outcome_col, new = 'used_column')
+  subset_dt <- outcome_dt[State == state]
+  subset_dt <- subset_dt[order(used_column,Hospital.Name)]
+  result <- subset_dt[num, .(Hospital.Name, used_column, State)]
+  return(result)
+}
