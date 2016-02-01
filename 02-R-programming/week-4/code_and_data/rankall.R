@@ -36,6 +36,7 @@ rankall <- function(outcome, num = "best") {
   
   
   setnames(outcome_dt, old = outcome_col, new = 'used_column')
+
   outcome_dt[, used_column := as.numeric(used_column, na.rm = TRUE)]
   outcome_dt <- outcome_dt[!is.na(outcome_dt$used_column)]
   subset_dt <- outcome_dt[order(State, used_column, Hospital.Name)]
@@ -48,10 +49,19 @@ rankall <- function(outcome, num = "best") {
   } else {
     result <- subset_dt[, .SD[num], by = "State"]
   }
-  
+  setnames(result, old = c('State', 'Hospital.Name'), new = c('state', 'hospital'))
   return(result)
 }
 
 rankall_1 <- head(rankall("heart attack", 20), 10)
 rankall_2 <- tail(rankall("pneumonia", "worst"), 3)
 rankall_3 <- tail(rankall("heart failure"), 10)
+
+r <- rankall("heart attack", 4)
+q8 <- as.character(subset(r, state == "HI")$hospital)
+
+r <- rankall("heart failure", 10)
+q10 <- as.character(subset(r, state == "NV")$hospital)
+
+r <- rankall("pneumonia", "worst")
+q9 <- as.character(subset(r, state == "NJ")$hospital)
