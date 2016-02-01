@@ -11,19 +11,37 @@ best <- function(state, outcome) {
   ## Check that state and outcome are valid
   ## Return hospital name in that state with lowest 30-day death
   ## rate
-  browser()
+  # browser()
+  outcome_dt <- copy(outcome_dt)
+  if( length(intersect(outcome_dt$State, state)) == 0 ){
+    stop('invalid state')
+  }
+  COLNAME_PREFIX <- 'Hospital.30.Day.Death..Mortality..Rates.from.'
   if(outcome == 'heart attack'){
-    outcome_col <- 'Hospital.30.Day.Death..Mortality..Rates.from.Heart.Attack'
+    outcome_col <- paste0(COLNAME_PREFIX,'Heart.Attack')
+  } else if (outcome == 'heart failure') {
+    outcome_col <- paste0(COLNAME_PREFIX,'Heart.Failure')
+  } else if (outcome == 'pneumonia') {
+    outcome_col <- paste0(COLNAME_PREFIX,'Pneumonia')
+  } else {
+    stop('invalid outcome')
   }
   
   
-  outcome_dt <- copy(outcome_dt)
+  
+  
   setnames(outcome_dt, old = outcome_col, new = 'used_column')
   subset_dt <- outcome_dt[State == state]
   subset_dt <- subset_dt[order(used_column)]
-  result <- subset_dt
+  result <- subset_dt[1]$Hospital.Name
   return(result)
 }
 
 
 best_hospitals <- best("TX", 'heart attack')
+trial_2 <- best("TX", 'heart failure')
+trial_3 <- best("MD", "heart attack")
+trial_4 <- best("MD", "pneumonia")
+
+error_5 <- best("BB", "heart attack")
+error_6 <- best("NY", "hert attack")
