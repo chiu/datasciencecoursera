@@ -36,8 +36,11 @@ rankhospital <- function(state, outcome, num = "best") {
   
   
   setnames(outcome_dt, old = outcome_col, new = 'used_column')
+  outcome_dt[, used_column := as.numeric(used_column, na.rm = TRUE)]
   subset_dt <- outcome_dt[State == state]
+  subset_dt <- subset_dt[!is.na(outcome_dt$used_column)]
   subset_dt <- subset_dt[order(used_column,Hospital.Name)]
+  
   if( num == "best"){
     result <- subset_dt[1, .(Hospital.Name, used_column, State)]
   } else if (num == "worst"){
@@ -51,5 +54,6 @@ rankhospital <- function(state, outcome, num = "best") {
 
 rank_1 <- rankhospital("TX", "heart failure", 4)
 rank_2 <- rankhospital("MD", "heart attack", "worst")
+
 
 rank_3 <- rankhospital("MN", "heart attack", 5000)
