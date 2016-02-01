@@ -58,3 +58,6 @@ rank_2 <- rankhospital("MD", "heart attack", "worst")
 
 
 rank_3 <- rankhospital("MN", "heart attack", 5000)
+
+
+q4 <- rankhospital("NC", "heart attack", "worst")

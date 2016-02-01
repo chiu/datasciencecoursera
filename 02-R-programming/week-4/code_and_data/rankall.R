@@ -36,15 +36,12 @@ rankall <- function(outcome, num = "best") {
   
   
   setnames(outcome_dt, old = outcome_col, new = 'used_column')
-  # subset_dt <- outcome_dt[State == state]
-  # subset_dt <- outcome_dt[, .(Hospital.Name, best = lapply(.SD, min), by = "State", .SDcols = 'used_column']
-  # subset_dt <- subset_dt[order(used_column,Hospital.Name)]
-  
-  # setcolorder(outcome_dt, c("State", "used_column", "Hospital.name"))
+  outcome_dt[, used_column := as.numeric(used_column, na.rm = TRUE)]
+  outcome_dt <- outcome_dt[!is.na(outcome_dt$used_column)]
   subset_dt <- outcome_dt[order(State, used_column, Hospital.Name)]
   subset_dt <- subset_dt[, .(State, used_column, Hospital.Name)]
-  # browser()
-  if( num == "best"){
+
+    if( num == "best"){
     result <- subset_dt[, .SD[1], by = "State"]
   } else if (num == "worst"){
     result <- subset_dt[, .SD[.N], by = "State"]
