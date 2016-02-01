@@ -17,6 +17,7 @@ rankhospital <- function(state, outcome, num = "best") {
 #   } else {
 #    num <- num 
 #   }
+  
   outcome_dt <- copy(outcome_dt)
   if( length(intersect(outcome_dt$State, state)) == 0 ){
     break('invalid state')
@@ -38,7 +39,7 @@ rankhospital <- function(state, outcome, num = "best") {
   setnames(outcome_dt, old = outcome_col, new = 'used_column')
   outcome_dt[, used_column := as.numeric(used_column, na.rm = TRUE)]
   subset_dt <- outcome_dt[State == state]
-  subset_dt <- subset_dt[!is.na(outcome_dt$used_column)]
+  subset_dt <- subset_dt[!is.na(subset_dt$used_column)]
   subset_dt <- subset_dt[order(used_column,Hospital.Name)]
   
   if( num == "best"){
