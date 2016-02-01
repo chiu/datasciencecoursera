@@ -14,7 +14,7 @@ best <- function(state, outcome) {
   # browser()
   outcome_dt <- copy(outcome_dt)
   if( length(intersect(outcome_dt$State, state)) == 0 ){
-    stop('invalid state')
+    break('invalid state')
   }
   COLNAME_PREFIX <- 'Hospital.30.Day.Death..Mortality..Rates.from.'
   if(outcome == 'heart attack'){
@@ -24,7 +24,7 @@ best <- function(state, outcome) {
   } else if (outcome == 'pneumonia') {
     outcome_col <- paste0(COLNAME_PREFIX,'Pneumonia')
   } else {
-    stop('invalid outcome')
+    break('invalid outcome')
   }
   
   
@@ -32,13 +32,13 @@ best <- function(state, outcome) {
   
   setnames(outcome_dt, old = outcome_col, new = 'used_column')
   subset_dt <- outcome_dt[State == state]
-  subset_dt <- subset_dt[order(used_column)]
-  result <- subset_dt[1]$Hospital.Name
+  subset_dt <- subset_dt[order(used_column,Hospital.Name)]
+  result <- subset_dt[1:10, .(Hospital.Name, used_column, State)]
   return(result)
 }
 
 
-best_hospitals <- best("TX", 'heart attack')
+trial_1 <- best("TX", 'heart attack')
 trial_2 <- best("TX", 'heart failure')
 trial_3 <- best("MD", "heart attack")
 trial_4 <- best("MD", "pneumonia")
